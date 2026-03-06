@@ -1,24 +1,26 @@
-name: Generate Pacman Contribution Graph
+name: generate pacman graph
 
 on:
   schedule:
     - cron: "0 */12 * * *"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Generate Pacman
-        uses: Platane/snk@v3
+      - uses: actions/checkout@v3
+
+      - name: generate pacman graph
+        uses: abozanona/pacman-contribution-graph@main
         with:
           github_user_name: thorrwho
-          outputs: |
-            dist/pacman-contribution-graph.svg
-            dist/pacman-contribution-graph-dark.svg?palette=github-dark
 
-      - name: Push to output branch
+      - name: push pacman graph
         uses: crazy-max/ghaction-github-pages@v3
         with:
           target_branch: output
